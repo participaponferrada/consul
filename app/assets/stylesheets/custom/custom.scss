@@ -1,0 +1,29 @@
+// Custom styles
+// 0. Global styles
+// 1. Header
+//
+
+// 0. Global styles
+// --------------------
+
+.button {
+  font-weight: bold;
+}
+
+// 1. Header
+// --------------------
+
+.top-bar-title {
+  background: $brand-dark;
+
+  &::before {
+    background: $brand-dark;
+  }
+}
+
+.subnavigation ul li {
+
+  @include breakpoint(medium) {
+    margin-right: rem-calc(8);
+  }
+}

@@ -81,6 +81,8 @@ es:
         signin_with_provider: Entrar con %{provider}
         signup: '¿No tienes una cuenta? %{signup_link}'
         signup_link: Regístrate
+      sign_in: "Iniciar sesión"
+      sign_up: "Registrarse"
     unlocks:
       new:
         email_label: Email

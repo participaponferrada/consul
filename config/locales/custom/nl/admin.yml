@@ -115,7 +115,7 @@ nl:
           open: "Actief"
           finished: "Afgesloten"
         delete: "Verwijderen"
-        help_block: "Dankzij begrotingen kunnen de burgers rechtstreeks voorstellen doen en beslissen hoe zij een deel van de begroting willen besteden, waarbij de gemeente toezicht houdt op de voorstellen en deze streng evalueert."
+        help: "Bij een burgerbegroting kunnen inwoners direct beslissen wat er met geld van de gemeente gebeurt. De gemeente monitort en evalueert de ideeën."
         type_single: "Enkele rubriek"
         type_multiple: "Meerdere rubrieken"
       new:
@@ -180,7 +180,7 @@ nl:
         main_call_to_action_description: "Deze knop verschijnt op de voorpagina van deze begroting. Een call to action moedigt de gebruiker aan om iets te doen, zoals een idee indienen, stemmen of meer leren over het proces."
         name_help_text: "Dit is de titel van de fase die gebruikers zullen zien in de header wanneer de fase actief is."
       index:
-        help_block: "Een burgerbegroting bestaat uit verschillende fases. Hier kun je fases aan-en uitzetten en iedere fase aanpassen."
+        help: "Een burgerbegroting bestaat uit verschillende fasen. Hieronder kun je fases aan- of uitzetten en vullen met content."
         button:
           continue: "Voltooien"
     budget_groups:
@@ -231,6 +231,7 @@ nl:
         recounts_tab: "Hertellingen"
         results_tab: "Resultaten"
         table_title: "Titel"
+        no_questions: "Deze peiling bevat (nog) geen vragen."
       edit:
         title: "Peiling bewerken"
         submit_button: "Opslaan"
@@ -455,6 +456,7 @@ nl:
       administrator_tasks: "Aangevraagde promotiemiddelen"
       dashboard_actions: "Promotiemiddelen"
       local_census_records: "Lokale volkstelling"
+      maps: "Kaart"
     administrators:
       index:
         name: "Gebruikersnaam"
@@ -519,6 +521,7 @@ nl:
       close_modal: "Venster sluiten"
       learn_more: "Meer informatie"
       example_url: "https://consulproject.org"
+      back: "Go back"
     dashboard:
       index:
         title: "Admin"
@@ -621,3 +624,20 @@ nl:
         creating: "Nieuwe volkstelling maken"
       destroy:
         notice: "Volkstelling succesvol verwijderd!"
+    maps:
+      index:
+        title: "Kaart instellen"
+        help: "Hier kun je aanpassen hoe de kaart wordt weergegeven aan gebruikers. Versleep de markering op de kaart of klik ergens op de kaart om een locatie te selecteren. Stel de gewenste zoom in. Om op te slaan klik op de knop \"Kaart opslaan\"."
+        how_to_enable: "Om gebruikers de kaart te laten zien, moet je de geolocatie van initiatieven en ideeèn inschakelen op het tabblad \"functies\"."
+        budget: "Ideeën"
+        default_map: "Standaard kaart"
+        new_button: "Creëer nieuwe kaart"
+      edit:
+        submit: "Kaart opslaan"
+      flash:
+        create: "Kaart succesvol aangemaakt."
+        destroy: "Kaart succesvol verwijderd."
+        update: "Kaart succesvol bewerkt."
+      form:
+        continue: "Continue"
+        submit: "Coördinaten opslaan"

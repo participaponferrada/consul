@@ -5,7 +5,7 @@ section "Creating Settings" do
     "facebook_handle": "CONSUL",
     "feature.featured_proposals": "true",
     "feature.map": "true",
-    "feature.sdg": "true",
+    "feature.remove_investments_supports": true,
     "instagram_handle": "CONSUL",
     "mailer_from_address": "noreply@consul.dev",
     "mailer_from_name": "CONSUL",
@@ -25,4 +25,6 @@ section "Creating Settings" do
   }.each do |name, value|
     Setting[name] = value
   end
+
+  Map.default
 end

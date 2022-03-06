@@ -1,17 +1,26 @@
 class SiteCustomization::Image < ApplicationRecord
+  include HasAttachment
+
   VALID_IMAGES = {
     "logo_header" => [260, 80],
     "social_media_icon" => [470, 246],
     "social_media_icon_twitter" => [246, 246],
     "apple-touch-icon-200" => [200, 200],
     "budget_execution_no_image" => [800, 600],
+    "budget_investment_no_image" => [800, 600],
     "budget_no_image" => [400, 300],
     "map" => [420, 500],
     "logo_email" => [400, 80],
-    "auth_bg" => [934, 1398]
+    "welcome/step_1" => [270, 240],
+    "welcome/step_2" => [270, 240],
+    "welcome/step_3" => [270, 240],
+    "welcome_process" => [370, 185],
+    "auth_bg" => [934, 1398],
+    "bg_footer" => [1200, 300],
+    "logo_footer" => [260, 80]
   }.freeze
 
-  has_attached_file :image
+  has_attachment :image
 
   validates :name, presence: true, uniqueness: true, inclusion: { in: VALID_IMAGES.keys }
   validates_attachment_content_type :image, content_type: ["image/png", "image/jpeg"]

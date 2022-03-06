@@ -51,15 +51,14 @@ namespace :admin do
     end
   end
 
-  resources :budgets do
+  resources :budgets, except: [:create, :new] do
     member do
       patch :publish
       put :calculate_winners
-      put :switch_group
     end
 
-    resources :groups, except: [:show], controller: "budget_groups" do
-      resources :headings, except: [:show], controller: "budget_headings"
+    resources :groups, except: [:index, :show], controller: "budget_groups" do
+      resources :headings, except: [:index, :show], controller: "budget_headings"
     end
 
     resources :budget_investments, only: [:index, :show, :edit, :update] do
@@ -70,8 +69,20 @@ namespace :admin do
       resources :progress_bars, except: :show, controller: "budget_investment_progress_bars"
     end
 
-    resources :budget_phases, only: [:index, :edit, :update] do
-      member { patch :toggle_enable }
+    resources :budget_phases, only: [:edit, :update] do
+      member { patch :toggle_enabled }
+    end
+  end
+
+  namespace :budgets_wizard do
+    resources :budgets, only: [:create, :new, :edit, :update] do
+      resources :groups, only: [:index, :create, :edit, :update, :destroy] do
+        resources :headings, only: [:index, :create, :edit, :update, :destroy]
+      end
+
+      resources :phases, as: "budget_phases", only: [:index, :edit, :update] do
+        member { patch :toggle_enabled }
+      end
     end
   end
 
@@ -99,7 +110,6 @@ namespace :admin do
   end
 
   resources :settings, only: [:index, :update]
-  put :update_map, to: "settings#update_map"
   put :update_content_types, to: "settings#update_content_types"
 
   resources :moderators, only: [:index, :create, :destroy] do
@@ -230,6 +240,12 @@ namespace :admin do
 
   resources :geozones, only: [:index, :new, :create, :edit, :update, :destroy]
 
+  resources :maps, except: [:show, :update] do
+    resources :map_locations, except: [:new, :create, :show] do
+      put :update_from_map
+    end
+  end
+
   namespace :site_customization do
     resources :pages, except: [:show] do
       resources :cards, except: [:show], as: :widget_cards
@@ -260,6 +276,11 @@ namespace :admin do
   resources :local_census_records
   namespace :local_census_records do
     resources :imports, only: [:new, :create, :show]
+  end
+
+  resource :machine_learning, controller: :machine_learning, only: [:show] do
+    post :execute, on: :collection
+    delete :cancel, on: :collection
   end
 end
 

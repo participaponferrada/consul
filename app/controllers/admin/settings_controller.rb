@@ -4,7 +4,6 @@ class Admin::SettingsController < Admin::BaseController
     @configuration_settings = all_settings["configuration"]
     @feature_settings = all_settings["feature"]
     @participation_processes_settings = all_settings["process"]
-    @map_configuration_settings = all_settings["map"]
     @proposals_settings = all_settings["proposals"]
     @remote_census_general_settings = all_settings["remote_census.general"]
     @remote_census_request_settings = all_settings["remote_census.request"]
@@ -16,14 +15,11 @@ class Admin::SettingsController < Admin::BaseController
   def update
     @setting = Setting.find(params[:id])
     @setting.update!(settings_params)
-    redirect_to request_referer, notice: t("admin.settings.flash.updated")
-  end
 
-  def update_map
-    Setting["map.latitude"] = params[:latitude].to_f
-    Setting["map.longitude"] = params[:longitude].to_f
-    Setting["map.zoom"] = params[:zoom].to_i
-    redirect_to admin_settings_path, notice: t("admin.settings.index.map.flash.update")
+    respond_to do |format|
+      format.html { redirect_to request_referer, notice: t("admin.settings.flash.updated") }
+      format.js
+    end
   end
 
   def update_content_types

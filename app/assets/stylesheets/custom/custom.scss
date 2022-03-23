@@ -1,6 +1,7 @@
 // Custom styles
 // 0. Global styles
 // 1. Header
+// 2. Homepage
 //
 
 // 0. Global styles
@@ -25,5 +26,41 @@
 
   @include breakpoint(medium) {
     margin-right: rem-calc(8);
+  }
+}
+
+// 2. Homepage
+// --------------------
+
+.home-page {
+
+  .jumbo {
+
+    @include breakpoint(large) {
+      background-position: center;
+      background-size: cover;
+      margin-top: rem-calc(-24);
+      padding-top: $line-height * 2;
+    }
+
+    &.header-card-full {
+      color: #fff;
+      margin-left: auto;
+      margin-right: auto;
+
+      @include breakpoint(large) {
+        margin-left: calc(#{$global-width / 2} - 50vw);
+        margin-right: calc(#{$global-width / 2} - 50vw);
+      }
+
+      .header-content {
+        background: rgba(0, 0, 0, 0.7);
+        padding: $line-height;
+
+        @include breakpoint(medium) {
+          border-radius: $line-height;
+        }
+      }
+    }
   }
 }

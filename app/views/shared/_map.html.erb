@@ -1,32 +1,29 @@
 <div class="row">
-  <div class="small-12 medium-9 column margin-top">
-
+  <div class="small-12 column margin">
     <h1><%= t("map.title") %></h1>
 
-    <div class="row">
-      <div class="small-12 medium-3 column">
-        <ul id="geozones" class="no-bullet">
-          <% @geozones.each do |geozone| %>
-            <li><%= link_to geozone.name, proposals_path(search: geozone.name) %></li>
-          <% end %>
-        </ul>
-      </div>
+    <ul id="geozones" class="no-bullet">
+      <% @geozones.each do |geozone| %>
+        <li><%= link_to geozone.name, proposals_path(search: geozone.name) %></li>
+      <% end %>
+    </ul>
 
-      <div class="show-for-medium medium-9 column text-center">
-        <%= image_tag(image_path_for("map.jpg"), usemap: "#map") %>
-      </div>
-
-      <map name="map" id="html_map">
-        <% @geozones.each do |geozone| %>
-          <area shape="poly"
-                coords="<%= geozone.html_map_coordinates %>"
-                href="<%= polymorphic_path(@resource, search: geozone.name) %>"
-                title="<%= geozone.name %>"
-                alt="<%= geozone.name %>">
-        <% end %>
-      </map>
+    <div class="show-for-medium text-center">
+      <%= image_tag(image_path_for("map.jpg"), usemap: "#map") %>
     </div>
 
+    <map name="map" id="html_map">
+      <% @geozones.each do |geozone| %>
+        <area shape="poly"
+              coords="<%= geozone.html_map_coordinates %>"
+              href="<%= polymorphic_path(@resource, search: geozone.name) %>"
+              title="<%= geozone.name %>"
+              alt="<%= geozone.name %>">
+      <% end %>
+    </map>
+  </div>
+
+  <div class="small-12 medium-9 column margin-top">
     <h2><%= t("map.proposal_for_district") %></h2>
 
     <%= form_for(@resource, url: new_url_path, method: :get) do |f| %>

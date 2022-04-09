@@ -10,7 +10,7 @@ FactoryBot.define do
     sequence(:census_code, &:to_s)
 
     trait :in_census do
-      census_code { "01" }
+      census_code { "1" }
     end
   end
 

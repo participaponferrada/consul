@@ -117,7 +117,7 @@ describe "Residence", :with_frozen_time do
     end
 
     describe "Display form fields according to the remote census configuration" do
-      scenario "by default (without custom census) not display date_of_birth and postal_code" do
+      scenario "by default (without custom census) not display date_of_birth" do
         Setting["feature.remote_census"] = false
 
         login_through_form_as_officer(officer.user)
@@ -131,7 +131,6 @@ describe "Residence", :with_frozen_time do
         expect(page).to have_css("#residence_document_number")
         expect(page).to have_css("#residence_year_of_birth")
         expect(page).not_to have_content("Date of birth")
-        expect(page).not_to have_css("#residence_postal_code")
       end
 
       scenario "with all custom census not display year_of_birth" do
@@ -145,12 +144,11 @@ describe "Residence", :with_frozen_time do
         expect(page).to have_css("#residence_document_type")
         expect(page).to have_css("#residence_document_number")
         expect(page).to have_content("Date of birth")
-        expect(page).to have_css("#residence_postal_code")
         expect(page).not_to have_css("#residence_year_of_birth")
       end
     end
 
-    scenario "can verify voter with date_of_birth and postal_code fields" do
+    scenario "can verify voter with date_of_birth" do
       mock_valid_remote_census_response
 
       login_through_form_as_officer(officer.user)
@@ -163,7 +161,6 @@ describe "Residence", :with_frozen_time do
       select "DNI", from: "residence_document_type"
       fill_in "residence_document_number", with: "12345678Z"
       select_date "31-December-1980", from: "residence_date_of_birth"
-      fill_in "residence_postal_code", with: "28013"
 
       click_button "Validate document"
 

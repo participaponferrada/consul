@@ -62,7 +62,6 @@ describe "DocumentVerifications" do
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
         select_date "31-December-1980", from: "document_verification_date_of_birth"
-        fill_in "document_verification_postal_code", with: "inexisting"
         click_button "Check document"
 
         expect(page).to have_content "This document is not registered"
@@ -76,7 +75,6 @@ describe "DocumentVerifications" do
         visit management_document_verifications_path
         fill_in "document_verification_document_number", with: "12345678Z"
         select_date "31-December-1980", from: "document_verification_date_of_birth"
-        fill_in "document_verification_postal_code", with: "28013"
         click_button "Check document"
 
         expect(page).to have_content "Please introduce the email used on the account"

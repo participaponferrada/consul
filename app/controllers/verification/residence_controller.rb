@@ -11,7 +11,7 @@ class Verification::ResidenceController < ApplicationController
   def create
     @residence = Verification::Residence.new(residence_params.merge(user: current_user))
     if @residence.save
-      redirect_to verified_user_path, notice: t("verification.residence.create.flash.success")
+      redirect_to account_path, notice: t("verification.residence.create.flash.success")
     else
       render :new
     end
@@ -20,6 +20,6 @@ class Verification::ResidenceController < ApplicationController
   private
 
     def residence_params
-      params.require(:residence).permit(:document_number, :document_type, :date_of_birth, :postal_code, :terms_of_service)
+      params.require(:residence).permit(:document_number, :document_type, :date_of_birth, :terms_of_service)
     end
 end

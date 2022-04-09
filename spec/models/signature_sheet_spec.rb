@@ -150,7 +150,7 @@ describe SignatureSheet do
         expect(Signature.last.postal_code).to eq(nil)
       end
 
-      it "creates signatures for each group with document_number and postal_code" do
+      it "creates signatures for each group with document_number" do
         Setting["remote_census.request.date_of_birth"] = nil
 
         required_fields_to_verify = "123A, 28001; 456B, 28002"
@@ -162,13 +162,11 @@ describe SignatureSheet do
         expect(Signature.count).to eq(2)
         expect(Signature.first.document_number).to eq("123A")
         expect(Signature.first.date_of_birth).to eq(nil)
-        expect(Signature.first.postal_code).to eq("28001")
         expect(Signature.last.document_number).to eq("456B")
         expect(Signature.last.date_of_birth).to eq(nil)
-        expect(Signature.last.postal_code).to eq("28002")
       end
 
-      it "creates signatures for each group with document_number, postal_code and date_of_birth" do
+      it "creates signatures for each group with document_number and date_of_birth" do
         required_fields_to_verify = "123A, 01/01/1980, 28001; 456B, 01/02/1980, 28002"
         signature_sheet = create(:signature_sheet, required_fields_to_verify: required_fields_to_verify)
 
@@ -178,10 +176,8 @@ describe SignatureSheet do
         expect(Signature.count).to eq(2)
         expect(Signature.first.document_number).to eq("123A")
         expect(Signature.first.date_of_birth).to eq(Date.parse("01/01/1980"))
-        expect(Signature.first.postal_code).to eq("28001")
         expect(Signature.last.document_number).to eq("456B")
         expect(Signature.last.date_of_birth).to eq(Date.parse("01/02/1980"))
-        expect(Signature.last.postal_code).to eq("28002")
       end
     end
   end

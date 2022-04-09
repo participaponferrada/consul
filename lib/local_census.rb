@@ -22,10 +22,6 @@ class LocalCensus
       @body.date_of_birth
     end
 
-    def postal_code
-      @body.postal_code
-    end
-
     def district_code
       @body.district_code
     rescue

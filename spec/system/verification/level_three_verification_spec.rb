@@ -2,6 +2,7 @@ require "rails_helper"
 
 describe "Level three verification" do
   scenario "Verification with residency and verified sms" do
+    skip "Not implemented"
     create(:geozone)
     user = create(:user)
 
@@ -34,6 +35,7 @@ describe "Level three verification" do
   end
 
   scenario "Verification with residency and verified email" do
+    skip "Not implemented"
     create(:geozone)
     user = create(:user)
 
@@ -65,6 +67,7 @@ describe "Level three verification" do
   end
 
   scenario "Verification with residency and sms and letter" do
+    skip "Not implemented"
     create(:geozone)
     user = create(:user)
     login_as(user)

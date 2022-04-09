@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Verification::Residence do
-  let!(:geozone) { create(:geozone, census_code: "01") }
+  let!(:geozone) { create(:geozone, census_code: "1") }
   let(:residence) { build(:verification_residence, document_number: "12345678Z") }
 
   describe "validations" do
@@ -24,6 +24,7 @@ describe Verification::Residence do
     end
 
     it "validates user has allowed age" do
+      skip "Not implemented"
       residence = Verification::Residence.new("date_of_birth(3i)" => "1",
                                       "date_of_birth(2i)" => "1",
                                       "date_of_birth(1i)" => 5.years.ago.year.to_s)
@@ -79,13 +80,13 @@ describe Verification::Residence do
 
   describe "tries" do
     it "increases tries after a call to the Census" do
-      residence.postal_code = "28011"
+      residence.document_number = "87654321A"
       residence.valid?
       expect(residence.user.lock.tries).to eq(1)
     end
 
     it "does not increase tries after a validation error" do
-      residence.postal_code = ""
+      residence.document_number = ""
       residence.valid?
       expect(residence.user.lock).to be nil
     end
@@ -101,8 +102,7 @@ describe Verification::Residence do
         user_id:         residence.user.id,
         document_number: "12345678Z",
         document_type:   "1",
-        date_of_birth:   Date.new(1980, 12, 31),
-        postal_code:     "28001"
+        date_of_birth:   Time.zone.today,
       )
     end
   end

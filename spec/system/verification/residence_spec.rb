@@ -13,7 +13,6 @@ describe "Residence" do
     fill_in "residence_document_number", with: "12345678Z"
     select "DNI", from: "residence_document_type"
     select_date "31-December-1980", from: "residence_date_of_birth"
-    fill_in "residence_postal_code", with: "28013"
     check "residence_terms_of_service"
     click_button "Verify residence"
 
@@ -31,7 +30,6 @@ describe "Residence" do
     fill_in "residence_document_number", with: "12345678Z"
     select "DNI", from: "residence_document_type"
     select_date "31-December-1980", from: "residence_date_of_birth"
-    fill_in "residence_postal_code", with: "28013"
     check "residence_terms_of_service"
     click_button "Verify residence"
 
@@ -66,7 +64,6 @@ describe "Residence" do
     fill_in "residence_document_number", with: "12345678Z"
     select "DNI", from: "residence_document_type"
     select_date "31-December-1980", from: "residence_date_of_birth"
-    fill_in "residence_postal_code", with: "28013"
     check "residence_terms_of_service"
 
     click_button "Verify residence"
@@ -91,6 +88,7 @@ describe "Residence" do
   end
 
   scenario "Error on postal code not in census" do
+    skip "Not implemented"
     user = create(:user)
     login_as(user)
 
@@ -122,7 +120,6 @@ describe "Residence" do
     select "1997", from: "residence_date_of_birth_1i"
     select "January", from: "residence_date_of_birth_2i"
     select "1", from: "residence_date_of_birth_3i"
-    fill_in "residence_postal_code", with: "28013"
     check "residence_terms_of_service"
 
     click_button "Verify residence"
@@ -143,7 +140,6 @@ describe "Residence" do
       select "1997", from: "residence_date_of_birth_1i"
       select "January", from: "residence_date_of_birth_2i"
       select "1", from: "residence_date_of_birth_3i"
-      fill_in "residence_postal_code", with: "28013"
       check "residence_terms_of_service"
 
       click_button "Verify residence"

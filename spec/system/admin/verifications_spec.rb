@@ -41,7 +41,6 @@ describe "Incomplete verifications", :admin do
       expect(page).to have_content "DNI"
       expect(page).to have_content failed_census_call.document_number
       expect(page).to have_content Date.new(1900, 1, 1)
-      expect(page).to have_content "28000"
     end
   end
 

@@ -1722,6 +1722,7 @@ es:
         proposals: Propuestas
         debates: Debates
         processes: Procesos
+        budgets: "Presupuestos participativos"
       new:
         header_title: Nuevo encabezado
         submit_header: Crear encabezado

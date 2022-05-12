@@ -15,42 +15,40 @@ class CensusApi
     end
 
     def valid?
-      data[:datos_habitante][:item].present?
+      result[:exito] == "-1" && data.present?
     end
 
     def date_of_birth
-      str = data[:datos_habitante][:item][:fecha_nacimiento_string]
-      day, month, year = str.match(/(\d\d?)\D(\d\d?)\D(\d\d\d?\d?)/)[1..3]
+      date = data[:fechaNacimiento].to_s.first(8)
+      year = date.first(4)
+      month = date.last(4).first(2)
+      day = date.last(4).last(2)
       return nil unless day.present? && month.present? && year.present?
 
       Time.zone.local(year.to_i, month.to_i, day.to_i).to_date
     end
 
-    def postal_code
-      data[:datos_vivienda][:item][:codigo_postal]
-    end
-
     def district_code
-      data[:datos_vivienda][:item][:codigo_distrito]
+      data[:distrito]
     end
 
     def gender
-      case data[:datos_habitante][:item][:descripcion_sexo]
-      when "Varón"
+      case data[:sexo]
+      when "V"
         "male"
-      when "Mujer"
+      when "M"
         "female"
       end
     end
 
-    def name
-      "#{data[:datos_habitante][:item][:nombre]} #{data[:datos_habitante][:item][:apellido1]}"
-    end
-
     private
 
+      def result
+        @body[:res]
+      end
+
       def data
-        @body[:get_habita_datos_response][:get_habita_datos_return]
+        @body[:par][:l_habitante][:habitante] rescue {}
       end
   end
 
@@ -58,33 +56,63 @@ class CensusApi
 
     def get_response_body(document_type, document_number)
       if end_point_available?
-        client.call(:get_habita_datos, message: request(document_type, document_number)).body
+        response = Faraday.post(url, request(document_type, document_number), headers)
+        JSON.parse(response.body).deep_symbolize_keys!
       else
         stubbed_response(document_type, document_number)
       end
     end
 
-    def client
-      @client = Savon.client(wsdl: Rails.application.secrets.census_api_end_point)
+    def url
+      Rails.application.secrets.census_api_end_point
     end
 
     def request(document_type, document_number)
-      { request:
-        { codigo_institucion: Rails.application.secrets.census_api_institution_code,
-          codigo_portal:      Rails.application.secrets.census_api_portal_name,
-          codigo_usuario:     Rails.application.secrets.census_api_user_code,
-          documento:          document_number,
-          tipo_documento:     document_type,
-          codigo_idioma:      102,
-          nivel: 3 }}
+      {
+        sec: {
+          nonce: nonce,
+          fecha: datetime,
+          token: token,
+          cli: Rails.application.secrets.census_api_cli,
+          org: Rails.application.secrets.census_api_org,
+          ent: Rails.application.secrets.census_api_ent,
+          usu: Rails.application.secrets.census_api_usu,
+          pwd: encrypted_password
+        },
+        par: {
+          codigoTipoDocumento: document_type,
+          documento: encrypted_document_number(document_number),
+          busquedaExacta: -1
+        }
+      }.to_json
     end
 
-    def end_point_defined?
-      Rails.application.secrets.census_api_end_point.present?
+    def nonce
+      @nonce ||= Time.current.to_i
+    end
+
+    def datetime
+      @datetime ||= Time.zone.at(@nonce).strftime("%Y%m%d%H%M%S")
+    end
+
+    def token
+      Digest::SHA256.base64digest(nonce.to_s + datetime + Rails.application.secrets.census_api_public_key)
+    end
+
+    def encrypted_password
+      Digest::SHA1.base64digest(Rails.application.secrets.census_api_pwd)
+    end
+
+    def encrypted_document_number(document_number)
+      Base64.encode64(document_number).delete("\n")
+    end
+
+    def headers
+      { "Content-Type" => "application/json" }
     end
 
     def end_point_available?
-      (Rails.env.staging? || Rails.env.preproduction? || Rails.env.production?) && end_point_defined?
+      Rails.env.staging? || Rails.env.production?
     end
 
     def stubbed_response(document_type, document_number)
@@ -97,29 +125,31 @@ class CensusApi
 
     def stubbed_valid_response
       {
-        get_habita_datos_response: {
-          get_habita_datos_return: {
-            datos_habitante: {
-              item: {
-                fecha_nacimiento_string: "31-12-1980",
-                identificador_documento: "12345678Z",
-                descripcion_sexo: "Varón",
-                nombre: "José",
-                apellido1: "García"
-              }
-            },
-            datos_vivienda: {
-              item: {
-                codigo_postal: "28013",
-                codigo_distrito: "01"
-              }
+        par: {
+          l_habitante: {
+            habitante: {
+              fechaNacimiento: 19801231000000,
+              sexo: "V",
+              distrito: 1
             }
           }
+        },
+        res: {
+          error: nil,
+          exito: "-1",
+          codigo: nil
         }
       }
     end
 
     def stubbed_invalid_response
-      { get_habita_datos_response: { get_habita_datos_return: { datos_habitante: {}, datos_vivienda: {}}}}
+      {
+        par: nil,
+        res: {
+          error: "error message",
+          exito: "0",
+          codigo: "error code"
+        }
+      }
     end
 end

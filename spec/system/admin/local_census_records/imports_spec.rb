@@ -79,7 +79,6 @@ describe "Imports", :admin do
       expect(rows[0]).to have_content("can't be blank")
       expect(rows[1]).to have_content("can't be blank")
       expect(rows[2]).to have_content("can't be blank")
-      expect(rows[3]).to have_content("can't be blank")
     end
   end
 end

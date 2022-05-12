@@ -24,6 +24,7 @@ describe Verification::Management::Document do
     end
 
     it "is valid without a postal code" do
+      skip "Not implemented"
       verification_document.postal_code = nil
       expect(verification_document).to be_valid
     end
@@ -50,6 +51,7 @@ describe Verification::Management::Document do
       end
 
       it "is not valid without a postal_code" do
+        skip "Not implemented"
         verification_document.postal_code = nil
 
         expect(verification_document).not_to be_valid

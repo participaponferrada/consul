@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_110757) do
+ActiveRecord::Schema.define(version: 2022_04_10_115200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -898,7 +898,7 @@ ActiveRecord::Schema.define(version: 2022_02_03_110757) do
     t.string "document_number", null: false
     t.string "document_type", null: false
     t.date "date_of_birth", null: false
-    t.string "postal_code", null: false
+    t.string "postal_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["document_number", "document_type"], name: "index_local_census_records_on_document_number_and_document_type", unique: true

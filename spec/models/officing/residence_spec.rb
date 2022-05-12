@@ -1,7 +1,7 @@
 require "rails_helper"
 
 describe Officing::Residence do
-  let!(:geozone)  { create(:geozone, census_code: "01") }
+  let!(:geozone)  { create(:geozone, census_code: "1") }
   let(:residence) { build(:officing_residence, document_number: "12345678Z") }
 
   describe "validations" do
@@ -30,6 +30,7 @@ describe Officing::Residence do
     end
 
     it "is valid without a postal code" do
+      skip "Not implemented"
       residence.postal_code = nil
       expect(residence).to be_valid
     end
@@ -38,8 +39,7 @@ describe Officing::Residence do
       let(:custom_residence) do
         build(:officing_residence,
               document_number: "12345678Z",
-              date_of_birth: Date.parse("01/01/1980"),
-              postal_code: "28001")
+              date_of_birth: Date.parse("01/01/1980"))
       end
 
       it "is valid" do
@@ -75,6 +75,7 @@ describe Officing::Residence do
       end
 
       it "is not valid without a postal_code" do
+        skip "Not implemented"
         custom_residence.postal_code = nil
 
         mock_valid_remote_census_response
@@ -101,13 +102,12 @@ describe Officing::Residence do
         end
       end
 
-      it "stores failed census calls and set postal_code attribute" do
+      it "stores failed census calls without settting postal_code attribute" do
         Setting["remote_census.request.date_of_birth"] = ""
 
         residence = build(:officing_residence,
                           :invalid,
-                          document_number: "12345678Z",
-                          postal_code: "00001")
+                          document_number: "12345678Z")
 
         %w[12345678 12345678z 12345678Z].each do
           mock_invalid_remote_census_response
@@ -122,7 +122,6 @@ describe Officing::Residence do
           document_number: "12345678Z",
           document_type:   "1",
           date_of_birth: nil,
-          postal_code: "00001",
           year_of_birth: Time.current.year
         )
       end
@@ -169,8 +168,8 @@ describe Officing::Residence do
       expect(user.geozone).to eq(geozone)
     end
 
-    it "finds existing user and use demographic information" do
-      geozone = create(:geozone)
+    it "finds existing user and update demographic information" do
+      other_geozone = create(:geozone)
       create(:user, document_number: "12345678Z",
                     document_type: "1",
                     date_of_birth: Date.new(1981, 11, 30),
@@ -186,10 +185,11 @@ describe Officing::Residence do
 
       expect(user.document_number).to eq("12345678Z")
       expect(user.document_type).to eq("1")
-      expect(user.date_of_birth.year).to eq(1981)
-      expect(user.date_of_birth.month).to eq(11)
-      expect(user.date_of_birth.day).to eq(30)
-      expect(user.gender).to eq("female")
+      expect(user.date_of_birth.year).to eq(1980)
+      expect(user.date_of_birth.month).to eq(12)
+      expect(user.date_of_birth.day).to eq(31)
+      expect(user.gender).to eq("male")
+      expect(user.geozone).not_to eq(other_geozone)
       expect(user.geozone).to eq(geozone)
     end
 
@@ -214,7 +214,6 @@ describe Officing::Residence do
         document_number: "12345678Z",
         document_type:   "1",
         date_of_birth: nil,
-        postal_code: nil,
         year_of_birth:   Time.current.year
       )
     end

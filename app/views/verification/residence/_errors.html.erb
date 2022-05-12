@@ -8,6 +8,7 @@
   </div>
 
 <% else %>
+  <% @residence.errors.delete(:local_residence) %>
   <%= render "shared/errors",
              resource: @residence,
              message: t("verification.residence.new.form_errors") %>

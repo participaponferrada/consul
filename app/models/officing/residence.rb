@@ -3,15 +3,13 @@ class Officing::Residence
   include ActiveModel::Dates
   include ActiveModel::Validations::Callbacks
 
-  attr_accessor :user, :officer, :document_number, :document_type, :year_of_birth,
-                :date_of_birth, :postal_code
+  attr_accessor :user, :officer, :document_number, :document_type, :year_of_birth, :date_of_birth
 
   before_validation :retrieve_census_data
 
   validates :document_number, presence: true
   validates :document_type, presence: true
   validates :date_of_birth, presence: true, if: -> { Setting.force_presence_date_of_birth? }
-  validates :postal_code, presence: true, if: -> { Setting.force_presence_postal_code? }
   validates :year_of_birth, presence: true, unless: -> { Setting.force_presence_date_of_birth? }
 
   validate :allowed_age
@@ -27,24 +25,24 @@ class Officing::Residence
   def save
     return false unless valid?
 
+    user_params = {
+      geozone:               geozone,
+      date_of_birth:         response_date_of_birth.in_time_zone.to_datetime,
+      gender:                gender,
+      residence_verified_at: Time.current,
+      verified_at:           Time.current
+    }
+
     if user_exists?
       self.user = find_user_by_document
-      user.update!(verified_at: Time.current)
+      user.update!(user_params)
     else
-      user_params = {
-        document_number:       document_number,
-        document_type:         document_type,
-        geozone:               geozone,
-        date_of_birth:         response_date_of_birth.in_time_zone.to_datetime,
-        gender:                gender,
-        residence_verified_at: Time.current,
-        verified_at:           Time.current,
-        erased_at:             Time.current,
-        password:              random_password,
-        terms_of_service:      "1",
-        email:                 nil
-      }
-      self.user = User.create!(user_params)
+      self.user = User.create!(user_params.merge(document_number:  document_number,
+                                                 document_type:    document_type,
+                                                 erased_at:        Time.current,
+                                                 password:         random_password,
+                                                 terms_of_service: "1",
+                                                 email:            nil))
     end
   end
 
@@ -58,7 +56,6 @@ class Officing::Residence
       document_number: document_number,
       document_type: document_type,
       date_of_birth: date_of_birth,
-      postal_code: postal_code,
       year_of_birth: year_of_birth,
       poll_officer: officer
     )
@@ -115,8 +112,7 @@ class Officing::Residence
     def retrieve_census_data
       @census_api_response = CensusCaller.new.call(document_type,
                                                    document_number,
-                                                   date_of_birth,
-                                                   postal_code)
+                                                   date_of_birth)
     end
 
     def residency_valid?

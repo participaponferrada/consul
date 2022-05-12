@@ -24,12 +24,6 @@
         </div>
       <% end %>
 
-      <% if Setting.force_presence_postal_code? %>
-        <div class="small-12 medium-6">
-          <%= f.text_field :postal_code, aria: { describedby: "postal-code-help-text" } %>
-        </div>
-      <% end %>
-
       <div class="small-12 medium-6">
         <input type="submit" value="<%= t("officing.residence.new.submit") %>" class="button expanded">
       </div>

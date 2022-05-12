@@ -17,7 +17,6 @@ describe "Admin local census records", :admin do
       expect(page).to have_content("DNI")
       expect(page).to have_content(local_census_record.document_number)
       expect(page).to have_content(local_census_record.date_of_birth)
-      expect(page).to have_content(local_census_record.postal_code)
     end
 
     scenario "Should show edit and destroy actions for each record" do
@@ -75,8 +74,8 @@ describe "Admin local census records", :admin do
 
       click_on "Save"
 
-      expect(page).to have_content "4 errors prevented this Local Census Record from being saved."
-      expect(page).to have_content "can't be blank", count: 4
+      expect(page).to have_content "3 errors prevented this Local Census Record from being saved."
+      expect(page).to have_content "can't be blank", count: 3
     end
 
     scenario "Should show successful notice after create valid record" do
@@ -87,14 +86,12 @@ describe "Admin local census records", :admin do
       select "1982", from: :local_census_record_date_of_birth_1i
       select "July", from: :local_census_record_date_of_birth_2i
       select "7", from: :local_census_record_date_of_birth_3i
-      fill_in :local_census_record_postal_code, with: "07003"
       click_on "Save"
 
       expect(page).to have_content "New local census record created successfully!"
       expect(page).to have_content "DNI"
       expect(page).to have_content "#DOCUMENT"
       expect(page).to have_content "1982-07-07"
-      expect(page).to have_content "07003"
     end
   end
 
@@ -119,14 +116,12 @@ describe "Admin local census records", :admin do
       select "1982", from: :local_census_record_date_of_birth_1i
       select "August", from: :local_census_record_date_of_birth_2i
       select "8", from: :local_census_record_date_of_birth_3i
-      fill_in :local_census_record_postal_code, with: "07007"
       click_on "Save"
 
       expect(page).to have_content "Local census record updated successfully!"
       expect(page).to have_content "Passport"
       expect(page).to have_content "#NIE_NUMBER"
       expect(page).to have_content "1982-08-08"
-      expect(page).to have_content "07007"
     end
   end
 

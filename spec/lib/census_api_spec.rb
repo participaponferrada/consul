@@ -4,17 +4,22 @@ describe CensusApi do
   let(:api) { CensusApi.new }
 
   describe "#call" do
-    let(:invalid_body) { { get_habita_datos_response: { get_habita_datos_return: { datos_habitante: {}}}} }
+    let(:invalid_body) { { par: nil, res: { error: "error message", exito: "0", codigo: "error code" }} }
     let(:valid_body) do
       {
-        get_habita_datos_response: {
-          get_habita_datos_return: {
-            datos_habitante: {
-              item: {
-                fecha_nacimiento_string: "1-1-1980"
-              }
+        par: {
+          l_habitante: {
+            habitante: {
+              fechaNacimiento: 19800101000000,
+              sexo: "V",
+              distrito: 1
             }
           }
+        },
+        res: {
+          error: nil,
+          exito: "-1",
+          codigo: nil
         }
       }
     end

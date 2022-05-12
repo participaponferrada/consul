@@ -171,6 +171,8 @@ ignore_unused:
   - "admin.homepage.*"
   - "admin.dashboard.administrator_tasks.index.filter*"
   - "admin.dashboard.actions.index.default.*"
+  - "admin.local_census_records.index.import"
+  - "admin.local_census_records.index.postal_code"
   - "admin.users.index.filter*"
   - "moderation.comments.index.filter*"
   - "moderation.comments.index.orders.*"
@@ -214,6 +216,8 @@ ignore_unused:
 # - "simple_form.{error_notification,required}.:"
   - verification.letter.create.flash.offices_url
   - verification.letter.new.offices_url
+  - "verification.residence.new.error_not_allowed_postal_code"
+  - "verification.residence.new.postal_code_note"
   - votes.budget_investments.different_heading_assigned*
   - layouts.header.open_city_title
   - admin.stats.polls.current

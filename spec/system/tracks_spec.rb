@@ -18,7 +18,7 @@ describe "Tracking" do
       expect(page.html).to include "level_1_user"
     end
 
-    scenario "Usertype level_2_user" do
+    scenario "Usertype level_3_user" do
       create(:geozone)
       user = create(:user)
       login_as(user)
@@ -28,14 +28,7 @@ describe "Tracking" do
 
       verify_residence
 
-      fill_in "sms_phone", with: "611111111"
-      click_button "Send"
-
-      user = user.reload
-      fill_in "sms_confirmation_code", with: user.sms_confirmation_code
-      click_button "Send"
-
-      expect(page.html).to include "level_2_user"
+      expect(page.html).to include "level_3_user"
     end
   end
 
@@ -51,7 +44,7 @@ describe "Tracking" do
       expect(page).to have_selector "[data-track-event-action='start_census']", visible: :all
     end
 
-    scenario "Verification: success census & start sms" do
+    scenario "Verification: success census" do
       create(:geozone)
       user = create(:user)
       login_as(user)
@@ -61,14 +54,12 @@ describe "Tracking" do
 
       verify_residence
 
-      fill_in "sms_phone", with: "611111111"
-      click_button "Send"
-
       expect(page).to have_selector "[data-track-event-category='verification']", visible: :all
-      expect(page).to have_selector "[data-track-event-action='start_sms']", visible: :all
+      expect(page).to have_selector "[data-track-event-action='success_residence']", visible: :all
     end
 
     scenario "Verification: success sms" do
+      skip "Not implemented"
       create(:geozone)
       user = create(:user)
       login_as(user)
@@ -90,6 +81,7 @@ describe "Tracking" do
     end
 
     scenario "Verification: letter" do
+      skip "Not implemented"
       create(:geozone)
       user = create(:user)
       login_as(user)

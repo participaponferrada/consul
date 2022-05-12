@@ -19,11 +19,10 @@ FactoryBot.define do
     document_number
     document_type    { "1" }
     date_of_birth    { Time.zone.local(1980, 12, 31).to_date }
-    postal_code      { "28013" }
     terms_of_service { "1" }
 
     trait :invalid do
-      postal_code { "28001" }
+      date_of_birth { Time.zone.today }
     end
   end
 
@@ -32,7 +31,6 @@ FactoryBot.define do
     document_number
     document_type { 1 }
     date_of_birth { Date.new(1900, 1, 1) }
-    postal_code { "28000" }
   end
 
   factory :verification_sms, class: "Verification::Sms" do
@@ -61,6 +59,5 @@ FactoryBot.define do
     document_number
     document_type { "1" }
     date_of_birth { Date.new(1980, 12, 31) }
-    postal_code { "28013" }
   end
 end

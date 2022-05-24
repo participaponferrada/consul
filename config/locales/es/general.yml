@@ -444,6 +444,8 @@ es:
     update:
       form:
         submit_button: Guardar cambios
+    shared:
+      confirm_support: "¿Estas seguro/a? Apoyarás la propuesta \"%{proposal}\" y esta acción no se puede deshacer."
   dashboard:
     menu:
       my_proposal: Editar mi propuesta

@@ -13,9 +13,6 @@ class Verification::Residence
   validate :document_number_uniqueness
   validate :local_residence
 
-  validate :local_postal_code
-  validate :local_residence
-
   def initialize(attrs = {})
     self.date_of_birth = parse_date("date_of_birth", attrs)
     attrs = remove_date("date_of_birth", attrs)
@@ -74,20 +71,6 @@ class Verification::Residence
 
   def gender
     census_data.gender
-  end
-
-  def local_postal_code
-    errors.add(:postal_code, I18n.t("verification.residence.new.error_not_allowed_postal_code")) unless valid_postal_code?
-  end
-
-  def local_residence
-    return if errors.any?
-
-    unless residency_valid?
-      errors.add(:local_residence, false)
-      store_failed_attempt
-      Lock.increase_tries(user)
-    end
   end
 
   private

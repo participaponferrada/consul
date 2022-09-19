@@ -2733,6 +2733,17 @@ footer {
   }
 }
 
+.proposals-list {
+
+  @include breakpoint(medium) {
+    min-height: $line-height * 15;
+
+    .with-image > .row {
+      display: flex;
+    }
+  }
+}
+
 // 11. Polls
 // --------------------
 

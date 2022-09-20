@@ -47,45 +47,43 @@ describe "Polls" do
     end
 
     scenario "Polls display remaining days to participate if not expired" do
-      travel_to "10/06/2020".to_date
-      create(:poll, starts_at: "01/05/2020", ends_at: "31/05/2020", name: "Expired poll")
-      create(:poll, starts_at: "01/06/2020", ends_at: "20/06/2020", name: "Active poll")
+      travel_to "10/06/2020".to_date do
+        create(:poll, starts_at: "01/05/2020", ends_at: "31/05/2020", name: "Expired poll")
+        create(:poll, starts_at: "01/06/2020", ends_at: "20/06/2020", name: "Active poll")
 
-      visit polls_path
+        visit polls_path
 
-      within(".poll") do
-        expect(page).to have_content("Remaining 11 days to participate")
+        within(".poll") do
+          expect(page).to have_content("Remaining 11 days to participate")
+        end
+
+        click_link "Expired"
+
+        within(".poll") do
+          expect(page).not_to have_content("Remaining")
+          expect(page).not_to have_content("days to participate")
+        end
       end
-
-      click_link "Expired"
-
-      within(".poll") do
-        expect(page).not_to have_content("Remaining")
-        expect(page).not_to have_content("days to participate")
-      end
-
-      travel_back
     end
 
     scenario "Polls display remaining hours to participate if not expired" do
-      travel_to "10/06/2020".to_date + 8.hours
-      create(:poll, starts_at: "01/05/2020", ends_at: "31/05/2020", name: "Expired poll")
-      create(:poll, starts_at: "01/06/2020", ends_at: "10/06/2020", name: "Active poll")
+      travel_to "10/06/2020".to_date + 8.hours do
+        create(:poll, starts_at: "01/05/2020", ends_at: "31/05/2020", name: "Expired poll")
+        create(:poll, starts_at: "01/06/2020", ends_at: "10/06/2020", name: "Active poll")
 
-      visit polls_path
+        visit polls_path
 
-      within(".poll") do
-        expect(page).to have_content("Remaining about 16 hours to participate")
+        within(".poll") do
+          expect(page).to have_content("Remaining about 16 hours to participate")
+        end
+
+        click_link "Expired"
+
+        within(".poll") do
+          expect(page).not_to have_content("Remaining")
+          expect(page).not_to have_content("days to participate")
+        end
       end
-
-      click_link "Expired"
-
-      within(".poll") do
-        expect(page).not_to have_content("Remaining")
-        expect(page).not_to have_content("days to participate")
-      end
-
-      travel_back
     end
 
     scenario "Proposal polls won't be listed" do
@@ -392,7 +390,7 @@ describe "Polls" do
       expect(page).to have_css "#answer_description_#{answer_long.id}.answer-description.short"
     end
 
-    scenario "Show orbit bullets only when there is more than one image" do
+    scenario "Show orbit bullets and controls only when there is more than one image" do
       poll = create(:poll)
       question = create(:poll_question, poll: poll)
       answer1 = create(:poll_question_answer, title: "Answer with one image", question: question)
@@ -404,10 +402,12 @@ describe "Polls" do
       visit poll_path(poll)
 
       within("#answer_#{answer1.id}_gallery") do
+        expect(page).not_to have_css ".orbit-controls"
         expect(page).not_to have_css "nav.orbit-bullets"
       end
 
       within("#answer_#{answer2.id}_gallery") do
+        expect(page).to have_css ".orbit-controls"
         expect(page).to have_css "nav.orbit-bullets"
       end
     end

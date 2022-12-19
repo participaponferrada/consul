@@ -178,13 +178,6 @@ es:
         change_ballot: "Si cambias de opinión puedes borrar tus votos en %{check_ballot} y volver a empezar."
         check_ballot_link: "revisar y confirmar mis votos"
         price: "Presupuesto total"
-    progress_bar:
-      assigned: "Has asignado: "
-      available: "Presupuesto disponible: "
-    show:
-      see_results: Ver resultados
-      see_all_investments: "Ver todos los proyectos"
-      investments_list: "Lista de proyectos"
       votes:
         already_supported: "Ya has apoyado este proyecto de gasto. ¡Compártelo!"
         confirm_group:
@@ -194,6 +187,13 @@ es:
         remove_support_label: "Eliminar tu apoyo a %{investment}"
         support: "Apoyar"
         support_label: "Apoyar %{investment}"
+    progress_bar:
+      assigned: "Has asignado: "
+      available: "Presupuesto disponible: "
+    show:
+      see_results: Ver resultados
+      see_all_investments: "Ver todos los proyectos"
+      investments_list: "Lista de proyectos"
     investments_list:
       investment:
         price: "Coste"

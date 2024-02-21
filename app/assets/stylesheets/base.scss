@@ -486,6 +486,11 @@ aside {
   }
 }
 
+.ssb-twitter,
+.ssb-facebook {
+  color: #fff !important;
+}
+
 // 1. Header
 // --------------------
 header,
@@ -720,6 +725,10 @@ body > header,
           top: unset;
           width: calc(100% + 8px);
         }
+      }
+
+      > a::after {
+        border: 0;
       }
 
       > a::before {
@@ -2054,6 +2063,10 @@ a {
     border-bottom: 0;
     padding-bottom: 0;
   }
+
+  .comments-box-container {
+    z-index: 1;
+  }
 }
 
 .comments-box-container .comment-meta .comment-votes {
@@ -2132,6 +2145,10 @@ a {
 
   .calc-comments .comment-box {
     overflow: auto;
+  }
+
+  details:not([open]) .draft-panel .panel-title {
+    margin-top: rem-calc(120);
   }
 }
 
